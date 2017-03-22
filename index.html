@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CS179g ColorMap</title>
+    <h1 align="center">CS179g Group 15 Project</h1>
+	<body bgcolor="#5dd55d">
+    <p align="center" style="font-size:160%;">By: Jonathan Tan, Jose Rodriguez, Rebecca Clarke</p>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+
+
+    <style>
+        #map {
+            height: 80%;
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <input id="pac-input" class="controls" type="text" placeholder="Zipcode">
+    <div id="map"></div>
+    <script>
+        var map;
+		var Housing;
+		var JobSalaries;
+		var Education;
+		 
+		
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: 39.8282, lng: -98.5795 },
+                zoom: 5
+            });
+
+			 Housing = new google.maps.FusionTablesLayer({
+                query: {
+                    select: 'Geometry',
+                    from: '1aTdRLP5t6o-fLhkTN6AtqWwrAiBVwT3w3JNEGrOS'
+                },
+                styles: [{
+                    where: 'average_property_sale_price > 0',
+                    polygonOptions: {
+                        fillColor: "#FF0000",
+                        fillOpacity: "0.75",
+                        strokeColor: "#FF0000",
+                        strokeWeight: "1"
+                    },
+                    polylineOptions: {
+                        strokeColor: "#FF0000",
+                        strokeWeight: "1"
+                    }
+                }, {
+                    where: 'average_property_sale_price >= 100000',
+                    polygonOptions: {
+                        fillColor: "#ffcc00",
+                        fillOpacity: "0.75",
+                        strokeColor: "#ffcc00",
+                        strokeWeight: "1"
+                    },
+                    polylineOptions: {
+                        strokeColor: "#ffcc00",
+                        strokeWeight: "1"
+                    }				
+                }, {
+                    where: 'average_property_sale_price >= 250000',
+                    polygonOptions: {
+                        fillColor: "#ffff00",
+                        fillOpacity: "0.75",
+                        strokeColor: "#ffff00",
+                        strokeWeight: "1"
+                    },
+                    polylineOptions: {
+                        strokeColor: "#ffff00",
+                        strokeWeight: "1"
+                    }
+                }, {
+                    where: 'average_property_sale_price >= 350000',
+                    polygonOptions: {
+                        fillColor: "#ccff33",
+                        fillOpacity: "0.75",
+                        strokeColor: "#ccff33",
+                        strokeWeight: "1"
+                    },
+                    polylineOptions: {
+                        strokeColor: "#ccff33",
+                        strokeWeight: "1"
+                    }
+                }, {
+                    where: 'average_property_sale_price >= 450000',
+                    polygonOptions: {
+                        fillColor: "#66ff33",
+                        fillOpacity: "0.75",
+                        strokeColor: "#66ff33",
+                        strokeWeight: "1"
+                    },
+                    polylineOptions: {
+                        strokeColor: "#66ff33",
+                        strokeWeight: "1"
+                    }
+				}, {
+                where: 'average_property_sale_price is null',
+                    polygonOptions: {
+                        fillColor: "#FFFFFF",
+                        fillOpacity: "0.3",
+                        strokeColor: "#FFFFFF",
+                        strokeWeight: "0.2"
+                    }
+                },]
+            });
+			
+			JobSalaries = new google.maps.FusionTablesLayer({
+                query: {
+                    select: 'Geometry',
+                    from: '15CyU5mApswtCo-T2Pgbta9b-64DgV5zZHKdSKlei'
+                },
+                styles: [{
+					where: 'average_job_salary > 0',
+                    polygonOptions: {
+                        fillColor: "#FF0000",
+                        fillOpacity: "0.75",
+                        strokeColor: "#FF0000",
+                        strokeWeight: "1"
+                    },
+                    polylineOptions: {
+                        strokeColor: "#FF0000",
+                        strokeWeight: "1"
+                   }
+ 		    }, {			
+                    where: 'average_job_salary >= 20000',
+                    polygonOptions: {
+                        fillColor: "#ff6600",
+                        fillOpacity: "0.75",
+                        strokeColor: "#ff6600",
+                        strokeWeight: "1"
+                    },
+                    polylineOptions: {
+                        strokeColor: "#ff6600",
+                        strokeWeight: "1"
+                   }
+   
+ 		    }, {
+                    where: 'average_job_salary >= 30000',
+                    polygonOptions: {
+                        fillColor: "#ffcc00",
+                        fillOpacity: "0.75",
+                        strokeColor: "#ffcc00",
+                        strokeWeight: "1"
+                    },
+                    polylineOptions: {
+                        strokeColor: "#ffcc00",
+                        strokeWeight: "1"
+                    }
+		     }, {
+                    where: 'average_job_salary >= 40000',
+                    polygonOptions: {
+                        fillColor: "#FFFF00",
+                        fillOpacity: "0.75",
+                        strokeColor: "#FFFF00",
+                        strokeWeight: "1"
+                    },
+                    polylineOptions: {
+                        strokeColor: "#FFFF00",
+                        strokeWeight: "1"
+                    }
+		     }, {
+                    where: 'average_job_salary >= 50000',
+                    polygonOptions: {
+                        fillColor: "#CCFF33",
+                        fillOpacity: "0.75",
+                        strokeColor: "#CCFF33",
+                        strokeWeight: "1"
+                    },
+                    polylineOptions: {
+                        strokeColor: "#CCFF33",
+                        strokeWeight: "1"
+                    }
+		     }, {
+			        where: 'average_job_salary >= 60000',
+                    polygonOptions: {
+                        fillColor: "#66FF33",
+                        fillOpacity: "0.75",
+                        strokeColor: "#66FF33",
+                        strokeWeight: "1"
+                    },
+                    polylineOptions: {
+                        strokeColor: "#66FF33",
+                        strokeWeight: "1"
+                    }
+		     }, {
+			        where: 'average_job_salary is null',
+                    polygonOptions: {
+                        fillColor: "#FFFFFF",
+                        fillOpacity: "0.3",
+                        strokeColor: "#FFFFFF",
+                        strokeWeight: "0.2"
+                    }
+             },]
+            });
+			
+			Education = new google.maps.FusionTablesLayer({
+                query: {
+                    select: 'Geometry',
+                    from: '14MlKPohogp0MkI2VhFNYrnSqxwo9e4UHampIZ0dY'
+                },
+                styles: [{
+                  	where: "'highestEducationLevel' = 'ND'", 
+					polygonOptions: { 
+						fillColor: "FF0000", 
+						fillOpacity: "0.75", 
+						strokeColor: "FF0000", 
+						strokeWeight: "1" 
+					}, 
+					polylineOptions: { 
+						strokeColor: "FF0000", 
+						strokeWeight: "1" 
+					} 
+					},{
+                    where: "'highestEducationLevel' = 'HS'", 
+					polygonOptions: { 
+						fillColor: "#ff6600", 
+						fillOpacity: "0.75", 
+						strokeColor: "ff6600", 
+						strokeWeight: "1" 
+					}, 
+					polylineOptions: { 
+						strokeColor: "ff6600", 
+						strokeWeight: "1" 
+					} 
+						
+					},{
+                   	where: "'highestEducationLevel' = 'SMAS'", 
+					polygonOptions: { 
+						fillColor: "#CCFF33", 
+						fillOpacity: "0.75", 
+						strokeColor: "CCFF33", 
+						strokeWeight: "1" 
+					}, 
+					polylineOptions: { 
+						strokeColor: "CCFF33", 
+						strokeWeight: "1" 
+					} 					
+					},{
+                   	where: "'highestEducationLevel' = 'BSHG'",
+					polygonOptions: { 
+						fillColor: "66ff33", 
+						fillOpacity: "0.75", 
+						strokeColor: "66ff33", 
+						strokeWeight: "1" 
+					}, 
+					polylineOptions: { 
+						strokeColor: "66ff33", 
+						strokeWeight: "1" 
+					} 				
+		     },]
+            });
+			
+            var input = document.getElementById('pac-input');
+            var searchBox = new google.maps.places.SearchBox(input);
+            map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+            map.addListener('bounds_changed', function () {
+                searchBox.setBounds(map.getBounds());
+            });
+            var markers = [];
+            searchBox.addListener('places_changed', function () {
+                var places = searchBox.getPlaces();
+
+                if (places.length == 0) {
+                    return;
+                }
+
+                markers.forEach(function (marker) {
+                    marker.setMap(null);
+                });
+                markers = [];
+                var bounds = new google.maps.LatLngBounds();
+                places.forEach(function (place) {
+                    if (!place.geometry) {
+                        console.log("Returned place contains no geometry");
+                        return;
+                    }
+                    var icon = {
+                        url: place.icon,
+                        size: new google.maps.Size(71, 71),
+                        origin: new google.maps.Point(0, 0),
+                        anchor: new google.maps.Point(17, 34),
+                        scaledSize: new google.maps.Size(25, 25)
+                    };
+
+                    markers.push(new google.maps.Marker({
+                        map: map,
+                        icon: icon,
+                        title: place.name,
+                        position: place.geometry.location
+                    }));
+
+                    if (place.geometry.viewport) {
+                        bounds.union(place.geometry.viewport);
+                    } else {
+                        bounds.extend(place.geometry.location);
+                    }
+                });
+                map.fitBounds(bounds);
+            });
+        }
+
+		
+        google.maps.event.addDomListener(window, 'load', initiMap);
+			     
+        function toggleLayers(this_layer){
+            if(this_layer.getMap(map)!=null)
+            {
+                this_layer.setMap(null);
+            } else {
+                this_layer.setMap(map);
+            }
+        }
+		
+    </script>
+	<body>
+	<div align="center"> FILTER BY
+    <input type="checkbox" id="Housing" onclick="toggleLayers(Housing);" /> Housing Price
+    <input type="checkbox" id="Job Salaries" onclick="toggleLayers(JobSalaries);" /> Job Salary
+	<input type="checkbox" id="Education" onclick="toggleLayers(Education);" /> Education Level
+	</div>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD47maActZxXVX9Zz-UL5yltH5vFjYCWFs&libraries=places&callback=initMap" async defer></script>
+    <div id="status"></div>
+
+</body>
+</html>
